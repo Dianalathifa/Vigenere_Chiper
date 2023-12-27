@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigenere Cipher Enkripsi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #6a5ae7;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 55px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="button"] {
+            background-color: #6a5ae7;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: #6a5ae7;
+        }
+
+        a {
+            text-decoration: none;
+            color: #6a5ae7;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vigenere Cipher Enkripsi</h1>
+    <form id="enkripsiForm">
+        <label for="plaintext">Plaintext:</label>
+        <input type="text" id="plaintext" name="plaintext" required>
+
+        <label for="keyword">Keyword:</label>
+        <input type="text" id="keyword" name="keyword" required>
+
+        <input type="button" value="Enkripsi" onclick="enkripsi()">
+    </form>
+
+    <h2>Hasil Enkripsi:</h2>
+    <h2 style="color: #000000;" id="enkripsiText"></h2>
+
+    <a href="index.html">Kembali ke Halaman Utama</a>
+
+    <script>
+        function vigenere_enkripsi(plaintext, keyword) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let enkripsi_text = '';
+
+            for (let i = 0; i < plaintext.length; i++) {
+                if (plaintext[i] === ' ') {
+                    enkripsi_text += ' ';
+                    continue;
+                }
+
+                const plaintext_char_index = alphabet.indexOf(plaintext[i]);
+                const keyword_char_index = alphabet.indexOf(keyword[i % keyword.length]);
+
+                const enkripsi_char_index = (plaintext_char_index + keyword_char_index) % 26;
+                enkripsi_text += alphabet[enkripsi_char_index];
+            }
+
+            return enkripsi_text;
+        }
+
+        function enkripsi() {
+            const plaintextInput = document.getElementById("plaintext").value;
+            const keywordInput = document.getElementById("keyword").value;
+
+            const plaintextWithoutSpace = plaintextInput.replace(/ /g, "").toUpperCase();
+            const keywordUpper = keywordInput.toUpperCase();
+
+            const enkripsiText = vigenere_enkripsi(plaintextWithoutSpace, keywordUpper);
+            document.getElementById("enkripsiText").innerText = enkripsiText;
+        }
+    </script>
+</body>
+</html>

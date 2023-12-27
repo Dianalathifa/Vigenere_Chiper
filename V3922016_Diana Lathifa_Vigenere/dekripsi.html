@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vigenere Cipher Dekripsi</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #6a5ae7;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 55px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="button"] {
+            background-color: #6a5ae7;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        h2 {
+            color: #140c52;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2930eb;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vigenere Cipher Dekripsi</h1>
+    <form id="dekripsiForm">
+        <label for="ciphertext">Ciphertext:</label>
+        <input type="text" id="ciphertext" name="ciphertext" required>
+
+        <label for="keyword">Keyword:</label>
+        <input type="text" id="keyword" name="keyword" required>
+
+        <input type="button" value="Dekripsi" onclick="dekripsi()">
+    </form>
+
+    <h2>Hasil Dekripsi:</h2>
+    <h2 style="color: #4CAF50;" id="dekripsiText"></h2>
+
+    <a href="index.html">Kembali ke Halaman Utama</a>
+
+    <script> // membuat script javascript dalam tag script
+        // Mendefinisikan function untuk melakukan dekripsi Vigenere dengan parameter chipertext dan keyword
+        function vigenere_dekripsi(ciphertext, keyword) {
+            // Definisikan alfabet yang akan digunakan dalam dekripsi
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; //Mendefinisikan alfabet yang akan digunakan dalam dekripsi
+            let dekripsi_text = ''; // // mendekalarasikan string kosong untuk menyimpan teks yang telah terdekripsi
+
+            // Membuat loop for melalui setiap karakter dalam ciphertext
+            for (let i = 0; i < ciphertext.length; i++) { //deklarasi nilai awal i dengan 0, selama i kurang dari panjang chipertext maka menjalaankan kondisi berikut
+                if (ciphertext[i] === ' ') {
+                    dekripsi_text += ' '; // Jika karakter adalah spasi, tambahkan spasi ke hasil dekripsi
+                    continue;
+                }
+
+                // Menemukan indeks karakter dalam alfabet untuk ciphertext dan kata kunci
+                const ciphertext_char_index = alphabet.indexOf(ciphertext[i]); // Mencari indeks karakter dalam alfabet untuk karakter ciphertext saat ini yang disimpan di variabel ciphertext_char_index
+                const keyword_char_index = alphabet.indexOf(keyword[i % keyword.length]); // Mencari indeks karakter dalam alfabet untuk karakter kata kunci (keyword) yang sesuai dengan posisi saat ini yang disimpan di variabel keyword_char_index
+
+                // Hitung indeks karakter terdekripsi
+                const dekripsi_char_index = (ciphertext_char_index - keyword_char_index + 26) % 26; // Menghitung indeks karakter terdekripsi dengan menjumlahkan indeks karakter plainteks dan kata kunci, kemudian mengambil modulus 26 agar tetap berada dalam rentang alfabet
+                dekripsi_text += alphabet[dekripsi_char_index]; // Tambahkan karakter terdekripsi ke hasil dekripsi
+            }
+
+            return dekripsi_text; // Kembalikan teks terdekripsi menggunakan assignment operator
+        }
+
+        // Function ini akan dipanggil saat tombol "Dekripsi" diklik
+        function dekripsi() {
+            const ciphertextInput = document.getElementById("ciphertext").value; // Menyimpan nilai teks ciphertex dari input user pada variabelciphertextInput
+            const keywordInput = document.getElementById("keyword").value; // Menyimpan nilai keyword dari input user pada variabel keywordInput
+
+            // Hilangkan spasi dan ubah teks menjadi huruf besar
+            const ciphertextWithoutSpace = ciphertextInput.replace(/ /g, "").toUpperCase(); // Menghilangkan spasi dari teks chipertext dan mengonversi semua karakter ke huruf besar dan menyimpan di variabel chipertextWithoutSpace
+            const keywordUpper = keywordInput.toUpperCase(); // Mengonversi kata kunci (keyword) menjadi huruf besar
+
+            // Panggil function dekripsi Vigenere dan tampilkan hasilnya
+            const dekripsiText = vigenere_dekripsi(ciphertextWithoutSpace, keywordUpper); // Memanggil function dekripsi Vigenere dengan teks chiperteks yang telah dihapus spasi dan kata kunci dalam huruf besar
+            document.getElementById("dekripsiText").innerText = dekripsiText;  // Menampilkan teks hasil dekripsi di elemen dengan ID "dekripsiText" pada halaman HTML
+        }
+    </script>
+</body>
+</html>
